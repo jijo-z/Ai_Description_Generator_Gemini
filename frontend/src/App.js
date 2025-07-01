@@ -26,7 +26,7 @@ function App() {
 
   return (
     <div style={{ padding: "2rem", fontFamily: "Arial" }}>
-      <h1>Description Generator</h1>
+      <h1>AI Description Generator</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -36,7 +36,7 @@ function App() {
           style={{ padding: "0.5rem", width: "200px" }}
         />
         <button type="submit" style={{ marginLeft: "10px", padding: "0.5rem" }}>
-          Get Description
+         Search
         </button>
       </form>
 

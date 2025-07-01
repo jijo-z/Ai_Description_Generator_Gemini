@@ -22,7 +22,7 @@ def describe_word():
         return jsonify({"error": "No word provided"}), 400
 
     try:
-        prompt = f"Explain the word '{word}' in simple terms."
+        prompt = f"Explain the word '{word}'."
         response = model.generate_content(prompt)
         return jsonify({
             "word": word,
