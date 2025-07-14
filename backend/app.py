@@ -16,12 +16,13 @@ model = genai.GenerativeModel("models/gemini-1.5-flash")
 def describe_word():
     data = request.get_json()
     word = data.get("word", "")
-
+    prompt_style = data.get("prompt_style", "descriptive")
     if not word:
         return jsonify({"error": "No word provided"}), 400
 
     try:
-        prompt = f"Explain the word '{word}'."
+        prompt = f"Explain the word '{word}' in a {prompt_style} manner."
+
         response = model.generate_content(prompt)
         return jsonify({
             "word": word,
@@ -38,15 +39,27 @@ def get_summary_gemini():
     if not description1:
         return jsonify({'error': 'No description provided'}), 400
 
-    prompt1 = f"Provide a concise technical summary of the following description:\n\n{description1}"
+    prompt1 = f"Provide a concise summary of the following:\n\n{description1}"
 
     try:
         summary_response = model.generate_content(prompt1)
         description2 = summary_response.text.strip() if hasattr(summary_response, 'text') else "No summary generated"
         return jsonify({'description2': description2})
     except Exception as e:
-        print(f'Error fetching summary: {e}')
         return jsonify({'error': f'Failed to fetch summary: {str(e)}'}), 500
+
+@app.route("/api/topics", methods=["POST"])
+def topics():
+    data = request.get_json()
+    word = data.get("word", "")
+    related = [
+        f"{word} 101",
+        f"Advanced {word}",
+        f"{word} vs Alternatives",
+        f"{word} in Real Life",
+        f"Future of {word}",
+    ]
+    return jsonify({"topics": related})
 
 if __name__ == "__main__":
     app.run(debug=True)
